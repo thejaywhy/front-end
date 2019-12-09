@@ -5,6 +5,10 @@ pipeline {
       nodejs 'nodejs-13.3.0'
     }
 
+    environment {
+      imageName = "localhost:5000/frontend"
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -19,8 +23,8 @@ pipeline {
             }
         }
         stage('Docker Build') {
-            steps {
-                def newImages = docker.build("localhost:5000/frontend:${env.BUILD_ID}")
+            script {
+                def newImages = docker.build imageName + ":$BUILD_NUMBER"
                 newImages.push()
                 newImages.push('latest')
             }
