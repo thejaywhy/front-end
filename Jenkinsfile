@@ -22,7 +22,7 @@ pipeline {
                 sh 'npm run test'
             }
         }
-        stage('Docker Build') {
+        stage('Docker-Build') {
             script {
                 def newImages = docker.build imageName + ":$BUILD_NUMBER"
                 newImages.push()
