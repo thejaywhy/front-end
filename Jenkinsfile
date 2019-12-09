@@ -6,6 +6,7 @@ pipeline {
     }
 
     environment {
+      // We use localhost:5000 to tell docker to use a local registry
       imageName = "localhost:5000/frontend"
     }
 
@@ -23,10 +24,12 @@ pipeline {
             }
         }
         stage('Docker-Build') {
-            script {
-                def newImages = docker.build imageName + ":$BUILD_NUMBER"
-                newImages.push()
-                newImages.push('latest')
+            steps {
+                script {
+                    def newImages = docker.build imageName + ":$BUILD_NUMBER"
+                    newImages.push()
+                    newImages.push('latest')
+                }
             }
         }
         stage('Package') {
