@@ -25,5 +25,12 @@ pipeline {
                 archiveArtifacts artifacts: '**/distribution/*.zip', fingerprint: true 
             }
         }
+        stage('Docker Build') {
+            steps {
+                def newImages = docker.build("localhost:5000/frontend:${env.BUILD_ID}")
+                newImages.push()
+                newImages.push('latest')
+            }
+        }
     }
 }
